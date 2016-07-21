@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+export WINEPREFIX=~/.wine.nik
+echo "all exec '$@'"
+wine "C:\Program Files\Google\Nik Collection\Analog Efex Pro 2\Analog Efex Pro 2.exe" $@
+
+
+

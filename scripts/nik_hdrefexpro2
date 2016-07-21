@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+export WINEPREFIX=~/.wine.nik
+echo "all exec '$@'"
+wine "C:\Program Files\Google\Nik Collection\HDR Efex Pro 2\HDR Efex Pro 2.exe" $@
+
+
+

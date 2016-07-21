@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Exec=nik_dfine2 %U
+Name=Dfine 2
+Icon=dfine_2
+Category=Graphics;2DGraphics;RasterGraphics;

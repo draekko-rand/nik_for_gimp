@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+export WINEPREFIX=~/.wine.nik
+echo "all exec '$@'"
+wine "C:\Program Files\Google\Nik Collection\Color Efex Pro 4\Color Efex Pro 4.exe" $@
+
+
+

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Exec=nik_analogefexpro2 %U
+Name=Analog Efex Pro 2
+Icon=analog_efex_pro_2
+Category=Graphics;2DGraphics;RasterGraphics;

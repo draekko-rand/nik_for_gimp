@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Exec=nik_colorefexpro4 %U
+Name=Color Efex Pro 4
+Icon=color_efex_pro_4
+Category=Graphics;2DGraphics;RasterGraphics;
