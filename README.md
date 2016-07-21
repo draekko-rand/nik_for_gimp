@@ -3,6 +3,16 @@ Nik Collection on GIMP
 
 Installation script to install Nik Collection for use with GIMP (2.9 & 2.10) and as a standalone app. 
 
+Screenshots:
+
+![](img/screen_1.png)
+
+
+![](img/screen_2.png)
+
+
+![](img/screen_3.png)
+
 Notes:
 
 * Tested on Ubuntu 16.04 with Wine Staging v1.9.14 using Nik Collection v1.2.11, and GIMP v2.9.5 (from git).
