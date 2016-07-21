@@ -5,13 +5,13 @@ Installation script to install Nik Collection for use with GIMP (2.9 & 2.10) and
 
 Screenshots:
 
-![](img/screen_1.png)
+![](images/screen_1.png)
 
 
-![](img/screen_2.png)
+![](images/screen_2.png)
 
 
-![](img/screen_3.png)
+![](images/screen_3.png)
 
 Notes:
 
