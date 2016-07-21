@@ -139,7 +139,7 @@ sudo install -m 755 scripts/nik_analogefexpro2 $installation_dir
 sudo install -m 755 scripts/nik_hdrefexpro2 $installation_dir
 sudo install -m 755 scripts/nik_viveza2 $installation_dir
 sudo install -m 755 scripts/nik_colorefexpro4 $installation_dir
-sudo install -m 755 scripts/nik_sharpnerpro3 $installation_dir
+sudo install -m 755 scripts/nik_sharpenerpro3 $installation_dir
 sudo install -m 755 scripts/nik_dfine2 $installation_dir
 sudo install -m 755 scripts/nik_silverefexpro2 $installation_dir
 
@@ -147,7 +147,7 @@ echo "Installing icons and desktop shortcuts"
 installation_dir="${HOME}/Desktop"
 install -m 755 desktop/analog_efex_pro_2.desktop $installation_dir
 install -m 755 desktop/dfine_2.desktop $installation_dir
-install -m 755 desktop/sharpner_pro_3.desktop $installation_dir
+install -m 755 desktop/sharpener_pro_3.desktop $installation_dir
 install -m 755 desktop/viveza_2.desktop $installation_dir
 install -m 755 desktop/color_efex_pro_4.desktop $installation_dir
 install -m 755 desktop/hdr_efex_pro_2.desktop $installation_dir
@@ -156,13 +156,14 @@ install -m 755 desktop/silver_efex_pro_3.desktop $installation_dir
 if [ ! -d "${HOME}/.icons" ]; then
     mkdir -p ${HOME}/.icons
 fi
-install -m 644 desktop/analog_efex_pro_2.png ~/.icons/analog_efex_pro_2.png
-install -m 644 desktop/dfine_2.png ~/.icons/dfine_2.png
-install -m 644 desktop/sharpner_pro_3.png ~/.icons/sharpner_pro_3.png
-install -m 644 desktop/viveza_2.png ~/.icons/viveza_2.png
-install -m 644 desktop/color_efex_pro_4.png ~/.icons/color_efex_pro_4.png
-install -m 644 desktop/hdr_efex_pro_2.png ~/.icons/hdr_efex_pro_2.png
-install -m 644 desktop/silver_efex_pro_3.png ~/.icons/silver_efex_pro_3.png
+installation_dir="${HOME}/.icons"
+install -m 644 desktop/analog_efex_pro_2.png $installation_dir
+install -m 644 desktop/dfine_2.png $installation_dir
+install -m 644 desktop/sharpener_pro_3.png $installation_dir
+install -m 644 desktop/viveza_2.png $installation_dir
+install -m 644 desktop/color_efex_pro_4.png $installation_dir
+install -m 644 desktop/hdr_efex_pro_2.png $installation_dir
+install -m 644 desktop/silver_efex_pro_3.png $installation_dir
 
 if [ -d ${TMP} ]; then 
     rm -fr ${TMP}
