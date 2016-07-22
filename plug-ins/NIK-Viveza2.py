@@ -49,7 +49,7 @@ def plugin_main(image, drawable, visible):
     temp = pdb.gimp_image_get_active_drawable(image)
   else:
     # Get the current visible
-    temp = pdb.gimp_layer_new_from_visible(image, image, "Visible")
+    temp = pdb.gimp_layer_new_from_visible(image, image, "Viveza")
     image.add_layer(temp, 0)
 
   buffer = pdb.gimp_edit_named_copy(temp, "ShellOutTemp")

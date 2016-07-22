@@ -10,6 +10,10 @@ export WINEARCH=win32
 TMP=/tmp/nik_tmp
 GOOGLE_PATH1="${WINEPREFIX}/drive_c/users/Public/Local Settings/Application Data/Google"
 GOOGLE_PATH2="${WINEPREFIX}/drive_c/users/Public/Application Data/Google"
+GOOGLE_PATH3="${WINEPREFIX}/drive_c/users/Public/Application Data/Google/Silver Efex Pro 2"
+GOOGLE_PATH4="${WINEPREFIX}/drive_c/users/Public/Application Data/Google/HDR Efex Pro 2"
+GOOGLE_PATH5="${WINEPREFIX}/drive_c/users/Public/Application Data/Google/Color Efex Pro 4"
+GOOGLE_PATH6="${WINEPREFIX}/drive_c/users/Public/Application Data/Google/Analog Efex Pro 2"
 GIMP_PLUGINS=${HOME}/.config/GIMP/2.9/plugins
 NIK_COLLECTION=${HOME}/Downloads/nikcollection-full-1.2.11.exe
 PROGRAMFILES="Program Files"
@@ -21,6 +25,51 @@ fi
 if [ -d ${WINEPREFIX} ]; then 
     rm -fr ${WINEPREFIX}
 fi
+
+echo "Install gimp nik plugin"
+if [ ! -d "${HOME}/.config/GIMP/2.9/plug-ins" ]; then
+    mkdir -p ${HOME}/.config/GIMP/2.9/plug-ins
+fi
+installation_dir="${HOME}/.config/GIMP/2.9/plug-ins/"
+install -m 755 plug-ins/NIK-ColorEfexPro4.py $installation_dir
+install -m 755 plug-ins/NIK-HDREfexPro2.py $installation_dir
+install -m 755 plug-ins/NIK-SilverEfexPro2.py $installation_dir
+install -m 755 plug-ins/NIK-AnalogEfexPro2.py $installation_dir
+install -m 755 plug-ins/NIK-Dfine2.py $installation_dir
+install -m 755 plug-ins/NIK-SharpenerPro3.py $installation_dir
+install -m 755 plug-ins/NIK-Viveza2.py $installation_dir
+
+echo "Install wine nik scripts"
+installation_dir="/usr/local/bin"
+sudo install -m 755 scripts/nik_analogefexpro2 $installation_dir
+sudo install -m 755 scripts/nik_hdrefexpro2 $installation_dir
+sudo install -m 755 scripts/nik_viveza2 $installation_dir
+sudo install -m 755 scripts/nik_colorefexpro4 $installation_dir
+sudo install -m 755 scripts/nik_sharpenerpro3 $installation_dir
+sudo install -m 755 scripts/nik_dfine2 $installation_dir
+sudo install -m 755 scripts/nik_silverefexpro2 $installation_dir
+
+echo "Installing icons and desktop shortcuts"
+installation_dir="${HOME}/Desktop"
+install -m 755 desktop/analog_efex_pro_2.desktop $installation_dir
+install -m 755 desktop/dfine_2.desktop $installation_dir
+install -m 755 desktop/sharpener_pro_3.desktop $installation_dir
+install -m 755 desktop/viveza_2.desktop $installation_dir
+install -m 755 desktop/color_efex_pro_4.desktop $installation_dir
+install -m 755 desktop/hdr_efex_pro_2.desktop $installation_dir
+install -m 755 desktop/silver_efex_pro_3.desktop $installation_dir
+
+if [ ! -d "${HOME}/.icons" ]; then
+    mkdir -p ${HOME}/.icons
+fi
+installation_dir="${HOME}/.icons"
+install -m 644 desktop/analog_efex_pro_2.png $installation_dir
+install -m 644 desktop/dfine_2.png $installation_dir
+install -m 644 desktop/sharpener_pro_3.png $installation_dir
+install -m 644 desktop/viveza_2.png $installation_dir
+install -m 644 desktop/color_efex_pro_4.png $installation_dir
+install -m 644 desktop/hdr_efex_pro_2.png $installation_dir
+install -m 644 desktop/silver_efex_pro_3.png $installation_dir
 
 echo "Creating wine setup in $WINEPREFIX and configuring"
 rm -fr ${WINEPREFIX}
@@ -120,50 +169,114 @@ cat <<EOF >"${WINEPREFIX}/drive_c/users/Public/Application Data/Google/Nik Colle
 </configuration>
 EOF
 
-echo "Install gimp nik plugin"
-if [ ! -d "${HOME}/.config/GIMP/2.9/plug-ins" ]; then
-    mkdir -p ${HOME}/.config/GIMP/2.9/plug-ins
-fi
-installation_dir="${HOME}/.config/GIMP/2.9/plug-ins/"
-install -m 755 plug-ins/NIK-ColorEfexPro4.py $installation_dir
-install -m 755 plug-ins/NIK-HDREfexPro2.py $installation_dir
-install -m 755 plug-ins/NIK-SilverEfexPro2.py $installation_dir
-install -m 755 plug-ins/NIK-AnalogEfexPro2.py $installation_dir
-install -m 755 plug-ins/NIK-Dfine2.py $installation_dir
-install -m 755 plug-ins/NIK-SharpenerPro3.py $installation_dir
-install -m 755 plug-ins/NIK-Viveza2.py $installation_dir
+echo "Fix styles and presets"
+# fixing styles
+rm -fr "$GOOGLE_PATH3/resource/styles"
+rm -fr "$GOOGLE_PATH4/resource/styles"
 
-echo "Install wine nik scripts"
-installation_dir="/usr/local/bin"
-sudo install -m 755 scripts/nik_analogefexpro2 $installation_dir
-sudo install -m 755 scripts/nik_hdrefexpro2 $installation_dir
-sudo install -m 755 scripts/nik_viveza2 $installation_dir
-sudo install -m 755 scripts/nik_colorefexpro4 $installation_dir
-sudo install -m 755 scripts/nik_sharpenerpro3 $installation_dir
-sudo install -m 755 scripts/nik_dfine2 $installation_dir
-sudo install -m 755 scripts/nik_silverefexpro2 $installation_dir
+rm -fr "$GOOGLE_PATH6/resource/styles/Black Gold.np"
+rm -fr "$GOOGLE_PATH6/resource/styles/Glowing Fade.np"
+rm -fr "$GOOGLE_PATH6/resource/styles/Sepia Glow.np"
+rm -fr "$GOOGLE_PATH6/resource/styles/Soft Landscape.np"
+rm -fr "$GOOGLE_PATH6/resource/styles/Vintage Saturation.np"
+rm -fr "$GOOGLE_PATH6/resource/styles/Bleached Portrait.np"
+rm -fr "$GOOGLE_PATH6/resource/styles/Purple Film.np"
+rm -fr "$GOOGLE_PATH6/resource/styles/Soft and Grainy.np"
+rm -fr "$GOOGLE_PATH6/resource/styles/Super Cross Pop.np"
+rm -fr "$GOOGLE_PATH6/resource/styles/Warm Sunset.np"
 
-echo "Installing icons and desktop shortcuts"
-installation_dir="${HOME}/Desktop"
-install -m 755 desktop/analog_efex_pro_2.desktop $installation_dir
-install -m 755 desktop/dfine_2.desktop $installation_dir
-install -m 755 desktop/sharpener_pro_3.desktop $installation_dir
-install -m 755 desktop/viveza_2.desktop $installation_dir
-install -m 755 desktop/color_efex_pro_4.desktop $installation_dir
-install -m 755 desktop/hdr_efex_pro_2.desktop $installation_dir
-install -m 755 desktop/silver_efex_pro_3.desktop $installation_dir
+rm -fr "$GOOGLE_PATH5/resource/styles/Black and White 1.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Black and White 2.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Black and White 3.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Black and White 4.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Black and White 5.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Black and White 6.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Black and White 7.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Black and White 8.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Black and White 9.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Classic Camera 1.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Classic Camera 2.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Classic Camera 3.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Classic Camera 4.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Classic Camera 5.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Classic Camera 6.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Classic Camera 7.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Classic Camera 8.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Classic Camera 9.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Color Cast 1.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Color Cast 2.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Color Cast 3.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Color Cast 4.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Double Exposure 1.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Double Exposure 2.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Double Exposure 3.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Double Exposure 4.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Double Exposure 5.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Double Exposure 6.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Double Exposure 7.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Double Exposure 8.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Double Exposure 9.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Motion 1.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Motion 2.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Motion 3.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Motion 4.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Motion 5.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Motion 6.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Motion 7.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Motion 8.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Motion 9.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Multilens 1.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Multilens 2.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Multilens 3.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Multilens 4.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Multilens 5.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Multilens 6.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Multilens 7.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Multilens 8.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Multilens 9.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Subtle Bokeh 1.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Subtle Bokeh 2.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Subtle Bokeh 3.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Subtle Bokeh 4.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Toy Camera 1.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Toy Camera 2.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Toy Camera 3.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Toy Camera 4.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Toy Camera 5.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Toy Camera 6.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Toy Camera 7.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Toy Camera 8.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Toy Camera 9.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Vintage Camera 1.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Vintage Camera 2.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Vintage Camera 3.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Vintage Camera 4.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Vintage Camera 5.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Vintage Camera 6.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Vintage Camera 7 np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Vintage Camera 8.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Vintage Camera 9.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Wet Plate 1.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Wet Plate 2.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Wet Plate 3.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Wet Plate 4.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Wet Plate 5.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Wet Plate 6.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Wet Plate 7.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Wet Plate 8.np"
+rm -fr "$GOOGLE_PATH5/resource/styles/Wet Plate 9.np"
 
-if [ ! -d "${HOME}/.icons" ]; then
-    mkdir -p ${HOME}/.icons
-fi
-installation_dir="${HOME}/.icons"
-install -m 644 desktop/analog_efex_pro_2.png $installation_dir
-install -m 644 desktop/dfine_2.png $installation_dir
-install -m 644 desktop/sharpener_pro_3.png $installation_dir
-install -m 644 desktop/viveza_2.png $installation_dir
-install -m 644 desktop/color_efex_pro_4.png $installation_dir
-install -m 644 desktop/hdr_efex_pro_2.png $installation_dir
-install -m 644 desktop/silver_efex_pro_3.png $installation_dir
+# fixing presets
+rm -fr "$GOOGLE_PATH6/resource/presets"
+
+find "$GOOGLE_PATH5/resource/presets" -name "0??.np" -exec rm '{}' \;
+find "$GOOGLE_PATH5/resource/presets" -name "?? - *.np" -exec rm '{}' \;
+
+find "$GOOGLE_PATH3/resource/presets" -name "?? - *.np" -exec rm '{}' \;
+find "$GOOGLE_PATH3/resource/presets" -name "*_?.np" -exec rm '{}' \;
+
+find "$GOOGLE_PATH4/resource/presets" -name "0??.np" -exec rm '{}' \;
+find "$GOOGLE_PATH4/resource/presets" -name "*_?.np" -exec rm '{}' \;
 
 if [ -d ${TMP} ]; then 
     rm -fr ${TMP}
