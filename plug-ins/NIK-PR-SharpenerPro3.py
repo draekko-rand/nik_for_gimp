@@ -121,7 +121,7 @@ def plugin_main(image, drawable, visible):
 
 
 register(
-        "nikfilters_sharpenerpro3",
+        "nikfilters_sharpenerpro3_pr",
         "Sharpener Pro 3 (PR)",
         "Sharpener Pro 3 (PR)",
         "Rob Antonishen (original) & Ben Touchette",
