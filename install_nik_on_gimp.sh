@@ -36,8 +36,12 @@ install -m 755 plug-ins/NIK-HDREfexPro2.py $installation_dir
 install -m 755 plug-ins/NIK-SilverEfexPro2.py $installation_dir
 install -m 755 plug-ins/NIK-AnalogEfexPro2.py $installation_dir
 install -m 755 plug-ins/NIK-Dfine2.py $installation_dir
-install -m 755 plug-ins/NIK-SharpenerPro3.py $installation_dir
+install -m 755 plug-ins/NIK-OS-SharpenerPro3.py $installation_dir
+install -m 755 plug-ins/NIK-PR-SharpenerPro3.py $installation_dir
 install -m 755 plug-ins/NIK-Viveza2.py $installation_dir
+if [ -f "$installation_dir/NIK-OS-SharpenerPro3.py" ]; then
+    rm -f "$installation_dir/NIK-SharpenerPro3.py"
+fi
 
 echo "Install wine nik scripts"
 installation_dir="/usr/local/bin"
@@ -45,19 +49,27 @@ sudo install -m 755 scripts/nik_analogefexpro2 $installation_dir
 sudo install -m 755 scripts/nik_hdrefexpro2 $installation_dir
 sudo install -m 755 scripts/nik_viveza2 $installation_dir
 sudo install -m 755 scripts/nik_colorefexpro4 $installation_dir
-sudo install -m 755 scripts/nik_sharpenerpro3 $installation_dir
+sudo install -m 755 scripts/nik_sharpenerpro3_pr $installation_dir
+sudo install -m 755 scripts/nik_sharpenerpro3_os $installation_dir
 sudo install -m 755 scripts/nik_dfine2 $installation_dir
 sudo install -m 755 scripts/nik_silverefexpro2 $installation_dir
+if [ -f "$installation_dir/nik_sharpenerpro3" ]; then
+    sudo rm -f "$installation_dir/nik_sharpenerpro3"
+fi
 
 echo "Installing icons and desktop shortcuts"
 installation_dir="${HOME}/Desktop"
 install -m 755 desktop/analog_efex_pro_2.desktop $installation_dir
 install -m 755 desktop/dfine_2.desktop $installation_dir
-install -m 755 desktop/sharpener_pro_3.desktop $installation_dir
+install -m 755 desktop/sharpener_pro_3_pr.desktop $installation_dir
+install -m 755 desktop/sharpener_pro_3_os.desktop $installation_dir
 install -m 755 desktop/viveza_2.desktop $installation_dir
 install -m 755 desktop/color_efex_pro_4.desktop $installation_dir
 install -m 755 desktop/hdr_efex_pro_2.desktop $installation_dir
 install -m 755 desktop/silver_efex_pro_3.desktop $installation_dir
+if [ -f "$installation_dir/sharpener_pro_3.desktop" ]; then
+    rm -f "$installation_dir/sharpener_pro_3.desktop"
+fi
 
 if [ ! -d "${HOME}/.icons" ]; then
     mkdir -p ${HOME}/.icons
@@ -65,11 +77,15 @@ fi
 installation_dir="${HOME}/.icons"
 install -m 644 desktop/analog_efex_pro_2.png $installation_dir
 install -m 644 desktop/dfine_2.png $installation_dir
-install -m 644 desktop/sharpener_pro_3.png $installation_dir
+install -m 644 desktop/sharpener_pro_3_os.png $installation_dir
+install -m 644 desktop/sharpener_pro_3_pr.png $installation_dir
 install -m 644 desktop/viveza_2.png $installation_dir
 install -m 644 desktop/color_efex_pro_4.png $installation_dir
 install -m 644 desktop/hdr_efex_pro_2.png $installation_dir
 install -m 644 desktop/silver_efex_pro_3.png $installation_dir
+if [ -f "$installation_dir/sharpener_pro_3.png" ]; then
+    rm -f "$installation_dir/sharpener_pro_3.png"
+fi
 
 echo "Creating wine setup in $WINEPREFIX and configuring"
 rm -fr ${WINEPREFIX}

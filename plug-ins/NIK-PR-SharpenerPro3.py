@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 '''
-NIK-SharpenerPro3.py
+NIK-PR-SharpenerPro3.py
 
 Mod of ShellOut.py focused on getting Google NIK to work.
 ShellOut call an external program passing the active layer as a temp file.
@@ -49,7 +49,7 @@ def plugin_main(image, drawable, visible):
     temp = pdb.gimp_image_get_active_drawable(image)
   else:
     # Get the current visible
-    temp = pdb.gimp_layer_new_from_visible(image, image, "Sharpener Pro")
+    temp = pdb.gimp_layer_new_from_visible(image, image, "Sharpener Pro (PR)")
     image.add_layer(temp, 0)
 
   buffer = pdb.gimp_edit_named_copy(temp, "ShellOutTemp")
@@ -78,10 +78,10 @@ def plugin_main(image, drawable, visible):
   pdb.gimp_file_save(tempimage, tempdrawable, tempfilename, tempfilename)
 
   # Invoke external command
-  print("calling Sharpener Pro 3...")
-  pdb.gimp_progress_set_text ("calling Sharpener Pro 3...")
+  print("calling Sharpener Pro 3 (PR)...")
+  pdb.gimp_progress_set_text ("calling Sharpener Pro 3 (PR)...")
   pdb.gimp_progress_pulse()
-  child = subprocess.Popen([ "nik_sharpenerpro3",  tempfilename ], shell=False)
+  child = subprocess.Popen([ "nik_sharpenerpro3_pr",  tempfilename ], shell=False)
   child.communicate()
 
   # put it as a new layer in the opened image
@@ -122,12 +122,12 @@ def plugin_main(image, drawable, visible):
 
 register(
         "nikfilters_sharpenerpro3",
-        "Sharpener Pro 3",
-        "Sharpener Pro 3",
+        "Sharpener Pro 3 (PR)",
+        "Sharpener Pro 3 (PR)",
         "Rob Antonishen (original) & Ben Touchette",
         "(C)2011 Rob Antonishen (original) & (C)2016 Ben Touchette",
         "2016",
-        "<Image>/Filters/NIK Collection/Sharpener Pro 3",
+        "<Image>/Filters/NIK Collection/Sharpener Pro 3 (PR)",
         "RGB*, GRAY*",
         [ (PF_RADIO, "visible", "Layer:", 1, (("new from visible", 1),("current layer",0))) ],
         [],

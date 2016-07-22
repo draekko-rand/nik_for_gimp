@@ -2,7 +2,7 @@
 Version=1.0
 Type=Application
 Terminal=false
-Exec=nik_sharpnerpro3 %U
-Name=Sharpener Pro 3
-Icon=sharpener_pro_3
+Exec=nik_sharpnerpro3_os %U
+Name=Sharpener Pro 3 (OS)
+Icon=sharpener_pro_3_os
 Category=Graphics;2DGraphics;RasterGraphics;

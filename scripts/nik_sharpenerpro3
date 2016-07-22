@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-export WINEPREFIX=~/.wine.nik
-echo "all exec '$@'"
-wine "C:\Program Files\Google\Nik Collection\Sharpener Pro 3\SHPRPS3.exe" $@
-
-
-

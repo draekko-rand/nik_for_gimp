@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Exec=nik_sharpnerpro3_pr %U
+Name=Sharpener Pro 3 (PR)
+Icon=sharpener_pro_3_pr
+Category=Graphics;2DGraphics;RasterGraphics;
