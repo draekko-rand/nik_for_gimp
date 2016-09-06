@@ -25,5 +25,5 @@ Issues:
 
 Credits:
 
-* Initial scripts and information was had from Erico Porto at https://github.com/ericoporto/NikInGimp (his version required PlayOnLinux, if you prefer it to using standard wine or wine staging definitely give it a try).
+* Initial scripts and information was had from Erico Porto at https://github.com/ericoporto/NikInGimp (his version required PlayOnLinux, if you prefer it rather than using standard wine or wine staging these plugins do then definitely give it a try).
 
