@@ -21,7 +21,7 @@ Notes:
 
 Issues:
 
-* GIMP will complain with the message 'Incompatible type for "RichTIFFIPTC"; tag ignored' after using some of the apps. This is because both open a TIF file and give back a high quality JPEG file, but the file has JPEG extension. If you click ok, the error will go away and everything will work.
+* GIMP will complain with the message 'Incompatible type for "RichTIFFIPTC"; tag ignored' after using some of the apps. If you click ok, the error will go away and everything will work.
 
 Credits:
 
