@@ -59,14 +59,14 @@ def plugin_main(image, drawable, visible):
   if hassel:
     savedsel = pdb.gimp_selection_save(image)
 
-  tempimage = pdb.gimp_edit_named_paste_as_new(buffer)
+  tempimage = pdb.gimp_edit_named_paste_as_new_image(buffer)
   pdb.gimp_buffer_delete(buffer)
   if not tempimage:
     raise RuntimeError
   pdb.gimp_image_undo_disable(tempimage)
 
   tempdrawable = pdb.gimp_image_get_active_layer(tempimage)
-  
+
   # Use temp file names from gimp, it reflects the user's choices in gimp.rc
   # change as indicated if you always want to use the same temp file name
   # tempfilename = pdb.gimp_temp_name(progtorun[2])
@@ -108,7 +108,7 @@ def plugin_main(image, drawable, visible):
 
   #load up old selection
   if hassel:
-    pdb.gimp_selection_load(savedsel)
+    pdb.gimp_image_select_item(image, CHANNEL_OP_REPLACE, savedsel)
     image.remove_channel(savedsel)
 
   # cleanup
