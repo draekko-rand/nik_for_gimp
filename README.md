@@ -21,7 +21,7 @@ Screenshots:
 
 ### Issues:
 
-* GIMP will complain with the message 'Incompatible type for "RichTIFFIPTC"; tag ignored' after using some of the apps. If you click ok, the error will go away and everything will work. Note that if you have the convert utility program from the imagemagick package those warnings will disappear.
+* GIMP will complain with the message 'Incompatible type for "RichTIFFIPTC"; tag ignored' after using some of the apps. If you click ok, the error will go away and everything will work. Note that if you have the convert utility program installed from the imagemagick package those warnings will disappear.
 
 ### Credits:
 
