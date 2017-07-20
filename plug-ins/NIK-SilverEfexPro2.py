@@ -14,7 +14,7 @@ Benoit Touchette modified from Erico Porto
 this script is modelled after the mm extern LabCurves trace plugin
 by Michael Munzert http://www.mm-log.com/lab-curves-gimp
 
-and thanks to the folds at gimp-chat has grown a bit ;)
+and thanks to the folks at gimp-chat it has grown a bit ;)
 
 License:
 
@@ -33,14 +33,18 @@ http://www.gnu.org/copyleft/gpl.html
 '''
 
 from gimpfu import *
+from time import sleep
 import shutil
+import platform
 import subprocess
 import os, sys
 import tempfile
 
 TEMP_FNAME = "ShellOutTempFile"
+CONVERT_CMD = "convert1"
 
 def plugin_main(image, drawable, visible):
+
   pdb.gimp_image_undo_group_start(image)
 
   # Copy so the save operations doesn't affect the original
@@ -66,27 +70,39 @@ def plugin_main(image, drawable, visible):
   pdb.gimp_image_undo_disable(tempimage)
 
   tempdrawable = pdb.gimp_image_get_active_layer(tempimage)
-
+  
   # Use temp file names from gimp, it reflects the user's choices in gimp.rc
   # change as indicated if you always want to use the same temp file name
   # tempfilename = pdb.gimp_temp_name(progtorun[2])
   tempfiledir = tempfile.gettempdir()
-  tempfilename = os.path.join(tempfiledir, TEMP_FNAME + "." + "tif")
+  intempfilename = os.path.join(tempfiledir, TEMP_FNAME + "_in." + "tif")
+  outtempfilename = os.path.join(tempfiledir, TEMP_FNAME + "_out." + "tif")
 
   # !!! Note no run-mode first parameter, and user entered filename is empty string
   pdb.gimp_progress_set_text ("Saving a copy")
-  pdb.gimp_file_save(tempimage, tempdrawable, tempfilename, tempfilename)
+  pdb.gimp_file_save(tempimage, tempdrawable, intempfilename, intempfilename)
 
   # Invoke external command
   print("calling Silver Efex Pro 2...")
   pdb.gimp_progress_set_text ("calling Silver Efex Pro 2...")
   pdb.gimp_progress_pulse()
-  child = subprocess.Popen([ "nik_silverefexpro2",  tempfilename ], shell=False)
+  child = subprocess.Popen([ "nik_silverefexpro2",  intempfilename ], shell=False)
   child.communicate()
+
+  #make the annoying richtiffiptc warning go away, convert the file tif to tif
+  #requires imagemagick convert
+  try:
+    child = subprocess.Popen([ "convert", "-colorspace", "Gray",  intempfilename, outtempfilename], shell=False)
+    child.communicate()
+  except:
+    print "missing convert command from imagemagick"
 
   # put it as a new layer in the opened image
   try:
-    newlayer2 = pdb.gimp_file_load_layer(tempimage, tempfilename)
+    if os.path.exists(outtempfilename):
+      newlayer2 = pdb.gimp_file_load_layer(tempimage, outtempfilename)
+    else:
+      newlayer2 = pdb.gimp_file_load_layer(tempimage, intempfilename)
   except:
     RuntimeError
 
@@ -108,11 +124,13 @@ def plugin_main(image, drawable, visible):
 
   #load up old selection
   if hassel:
-    pdb.gimp_image_select_item(image, CHANNEL_OP_REPLACE, savedsel)
+    pdb.gimp_selection_load(savedsel)
     image.remove_channel(savedsel)
 
   # cleanup
-  os.remove(tempfilename)  # delete the temporary file
+  os.remove(intempfilename)  # delete the temporary file
+  if os.path.exists(outtempfilename):
+    os.remove(outtempfilename)  # delete the temporary file
   gimp.delete(tempimage)   # delete the temporary image
 
   # Note the new image is dirty in Gimp and the user will be asked to save before closing.
@@ -125,8 +143,8 @@ register(
         "Silver Efex Pro 2",
         "Silver Efex Pro 2",
         "Rob Antonishen (original) & Ben Touchette",
-        "(C)2011 Rob Antonishen (original) & (C)2016 Ben Touchette",
-        "2016",
+        "(C)2011 Rob Antonishen (original) & (C)2016-2017 Ben Touchette",
+        "2017",
         "<Image>/Filters/NIK Collection/Silver Efex Pro 2",
         "RGB*, GRAY*",
         [ (PF_RADIO, "visible", "Layer:", 1, (("new from visible", 1),("current layer",0))) ],

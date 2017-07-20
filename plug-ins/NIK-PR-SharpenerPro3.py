@@ -66,7 +66,7 @@ def plugin_main(image, drawable, visible):
   pdb.gimp_image_undo_disable(tempimage)
 
   tempdrawable = pdb.gimp_image_get_active_layer(tempimage)
-
+  
   # Use temp file names from gimp, it reflects the user's choices in gimp.rc
   # change as indicated if you always want to use the same temp file name
   # tempfilename = pdb.gimp_temp_name(progtorun[2])
@@ -108,7 +108,7 @@ def plugin_main(image, drawable, visible):
 
   #load up old selection
   if hassel:
-    pdb.gimp_image_select_item(image, CHANNEL_OP_REPLACE, savedsel)
+    pdb.gimp_selection_load(savedsel)
     image.remove_channel(savedsel)
 
   # cleanup
@@ -125,8 +125,8 @@ register(
         "Sharpener Pro 3 (PR)",
         "Sharpener Pro 3 (PR)",
         "Rob Antonishen (original) & Ben Touchette",
-        "(C)2011 Rob Antonishen (original) & (C)2016 Ben Touchette",
-        "2016",
+        "(C)2011 Rob Antonishen (original) & (C)2016-2017 Ben Touchette",
+        "2017",
         "<Image>/Filters/NIK Collection/Sharpener Pro 3 (PR)",
         "RGB*, GRAY*",
         [ (PF_RADIO, "visible", "Layer:", 1, (("new from visible", 1),("current layer",0))) ],
