@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-export WINEPREFIX=~/.wine.nik
+export WINEPREFIX=${HOME}/.wine.nik
 echo "all exec '$@'"
-wine "C:\Program Files\Google\Nik Collection\Dfine 2\Dfine2.exe" $@
+/opt/wine-staging/bin/wine "C:\Program Files\Google\Nik Collection\Dfine 2\Dfine2.exe" $@
 
 
 

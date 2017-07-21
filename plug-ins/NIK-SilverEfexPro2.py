@@ -41,7 +41,6 @@ import os, sys
 import tempfile
 
 TEMP_FNAME = "ShellOutTempFile"
-CONVERT_CMD = "convert1"
 
 def plugin_main(image, drawable, visible):
 
@@ -89,13 +88,13 @@ def plugin_main(image, drawable, visible):
   child = subprocess.Popen([ "nik_silverefexpro2",  intempfilename ], shell=False)
   child.communicate()
 
-  #make the annoying richtiffiptc warning go away, convert the file tif to tif
-  #requires imagemagick convert
+  #make the annoying richtiffiptc warning go away, convert-im6.q16 the file tif to tif
+  #requires imagemagick convert-im6.q16
   try:
-    child = subprocess.Popen([ "convert", "-colorspace", "Gray",  intempfilename, outtempfilename], shell=False)
+    child = subprocess.Popen([ "convert-im6.q16", "-colorspace", "Gray",  intempfilename, outtempfilename], shell=False)
     child.communicate()
   except:
-    print "missing convert command from imagemagick"
+    print "missing convert-im6.q16 command from imagemagick"
 
   # put it as a new layer in the opened image
   try:
