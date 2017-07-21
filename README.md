@@ -1,4 +1,4 @@
-Nik Collection on GIMP
+Nik Collection for GIMP
 ===
 
 Installation script to install Nik Collection for use with GIMP (2.9 & 2.10) and as a standalone app. 
@@ -15,13 +15,13 @@ Screenshots:
 
 ### Notes:
 
-* Tested on Ubuntu 17.04 with Wine Staging v2.12 using Nik Collection v1.2.11, and GIMP v2.9.6 (from git).
-* Make sure that Windows OS version set for wine is set to XP.
-* Depending on your system specs the apps can take some time to start.
+* Tested on Ubuntu 17.04 with Wine Staging v2.12 using Nik Collection v1.2.11, and GIMP v2.9.5 (from git).
+* Depending on your system specs the plugins can take some time to start as they are launched through wine.
+* Updated install script now verifies for GIMP version and related packages required to make it all work.
 
 ### Issues:
 
-* GIMP will complain with the message 'Incompatible type for "RichTIFFIPTC"; tag ignored' after using some of the apps. If you click ok, the error will go away and everything will work. Note that if you have the convert utility program installed from the imagemagick package those warnings will disappear.
+* GIMP will complain with the message 'Incompatible type for "RichTIFFIPTC"; tag ignored' after using some of the apps. If you click ok, the error will go away and everything will work. Note that if you have the convert utility program installed from the imagemagick package those warnings will disappear, though the installer now asks if you want to install the correct package if it is missing.
 
 ### Credits:
 
