@@ -16,5 +16,5 @@ Screenshots:
 ### Notes:
 
 * Tested on Ubuntu 22.04 with Wine Staging v7.11 using Nik Collection v1.2.11, and GIMP v2.99 (from git).
-* You can use an already downloadeded nikcollection-1.2.11.exe file with the installation script but make sure to use the absolute path when doing so.
+* You can use an already downloadeded nikcollection-1.2.11.exe file with the installation script but make sure to use the absolute path when doing so. For example if the file is in home downloads then do something like "/whereitis/install_nik_collection.sh /home/username/Downloads/nikcollection-1.2.11.exe" to have it fetch the file locally instead of trying to download it.
 * Depending on your system specs the plugins can take some time to start as they are launched through wine.
