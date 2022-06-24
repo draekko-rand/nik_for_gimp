@@ -70,7 +70,7 @@ class Current():
     name = _("Current layer")
     position = 2
 
-plugin_name = "Silver Efex Pro 2"
+plugin_name = "Viveza 2"
 internal_name = plugin_name.replace(" ", "")
 script_name = internal_name.lower()
 RESPONSE_TYPE_RESET = 99
