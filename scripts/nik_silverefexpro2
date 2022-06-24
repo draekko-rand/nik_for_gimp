@@ -1,8 +1,41 @@
 #!/usr/bin/env bash
 
+
+if [ -e /tmp/.X11-unix/X0 ]; then
+    export DISPLAY=:0
+elif [ -e /tmp/.X11-unix/X1 ]; then
+    export DISPLAY=:1
+elif [ -e /tmp/.X11-unix/X2 ]; then
+    export DISPLAY=:2
+elif [ -e /tmp/.X11-unix/X3 ]; then
+    export DISPLAY=:3
+elif [ -e /tmp/.X11-unix/X4 ]; then
+    export DISPLAY=:4
+elif [ -e /tmp/.X11-unix/X5 ]; then
+    export DISPLAY=:5
+elif [ -e /tmp/.X11-unix/X6 ]; then
+    export DISPLAY=:6
+elif [ -e /tmp/.X11-unix/X7 ]; then
+    export DISPLAY=:7
+elif [ -e /tmp/.X11-unix/X8 ]; then
+    export DISPLAY=:8
+elif [ -e /tmp/.X11-unix/X9 ]; then
+    export DISPLAY=:9
+elif [ -e /tmp/.X11-unix/X10 ]; then
+    export DISPLAY=:10
+elif [ -e /tmp/.X11-unix/X11 ]; then
+    export DISPLAY=:11
+elif [ -e /tmp/.X11-unix/X12 ]; then
+    export DISPLAY=:12
+else
+    echo "Unable to set DISPLAY variable"
+    exit 0
+fi
+
 export WINEPREFIX=${HOME}/.wine.nik
 echo "all exec '$@'"
 /opt/wine-staging/bin/wine "C:\Program Files\Google\Nik Collection\Silver Efex Pro 2\Silver Efex Pro 2.exe" $@
-
-
-
+#wine "C:\Program Files\Google\Nik Collection\Silver Efex Pro 2\Silver Efex Pro 2.exe" $@
+killall -9 wineserver services.exe winedevice.exe GoogleUpdate.exe winedevice.exe plugplay.exe \
+           svchost.exe rpcss.exe winetricks wineserver explorer.exe wineboot.exe wine \
+           winemenubuilder

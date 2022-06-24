@@ -1,11 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
 '''
-NIK-ColorEfexPro4.py
+NIK-AnalogEfexPro2.py
 
 Mod of ShellOut.py focused on getting Google NIK to work.
 ShellOut call an external program passing the active layer as a temp file.
-Tested only in Ubuntu 16.04 with Gimp 2.9.5 (git) with Nik Collection 1.2.11
+Tested only in Ubuntu 22.04 with Gimp 2.10.30/2.10.33(git) with Nik Collection 1.2.11
 
 Author:
 Erico Porto on top of the work of Rob Antonishen
@@ -44,14 +44,21 @@ TEMP_FNAME = "ShellOutTempFile"
 def plugin_main(image, drawable, visible):
   pdb.gimp_image_undo_group_start(image)
 
-  # Copy so the save operations doesn't affect the original
-  if visible == 0:
-    # Save in temporary.  Note: empty user entered file name
+  if visible == 2:
+    # duplicate layer and rename
     temp = pdb.gimp_image_get_active_drawable(image)
-  else:
-    # Get the current visible
-    temp = pdb.gimp_layer_new_from_visible(image, image, "Color Efex")
+    newLayer = pdb.gimp_layer_copy(temp, 100)
+    pdb.gimp_image_insert_layer(image, newLayer, None, -1)
+    pdb.gimp_image_set_active_layer(image, newLayer)
+    pdb.gimp_item_set_name(newLayer, "AnalogEfexPro2")
+    temp = pdb.gimp_image_get_active_drawable(image)
+  elif visible == 1:
+    # new from visible layer and rename
+    temp = pdb.gimp_layer_new_from_visible(image, image, "AnalogEfexPro2")
     image.add_layer(temp, 0)
+  else:
+    # use current layer and do not rename
+    temp = pdb.gimp_image_get_active_drawable(image)
 
   buffer = pdb.gimp_edit_named_copy(temp, "ShellOutTemp")
 
@@ -64,7 +71,6 @@ def plugin_main(image, drawable, visible):
   pdb.gimp_buffer_delete(buffer)
   if not tempimage:
     raise RuntimeError
-  pdb.gimp_image_undo_disable(tempimage)
 
   tempdrawable = pdb.gimp_image_get_active_layer(tempimage)
 
@@ -80,10 +86,10 @@ def plugin_main(image, drawable, visible):
   pdb.gimp_file_save(tempimage, tempdrawable, intempfilename, intempfilename)
 
   # Invoke external command
-  print("calling Color Efex Pro 4...")
-  pdb.gimp_progress_set_text ("calling Color Efex Pro 4...")
+  print("calling Analog Efex Pro 2...")
+  pdb.gimp_progress_set_text ("calling Analog Efex Pro 2...")
   pdb.gimp_progress_pulse()
-  child = subprocess.Popen([ "nik_colorefexpro4",  intempfilename ], shell=False)
+  child = subprocess.Popen([ "nik_analogefexpro2",  intempfilename ], shell=False)
   child.communicate()
 
   #make the annoying richtiffiptc warning go away, convert-im6.q16 the file tif to tif
@@ -136,15 +142,15 @@ def plugin_main(image, drawable, visible):
 
 
 register(
-        "nikfilters_colorefexpro4",
-        "Color Efex Pro 4",
-        "Color Efex Pro 4",
+        "nikfilters_analogefexpro2",
+        "Analog Efex Pro 2",
+        "Analog Efex Pro 2",
         "Rob Antonishen (original) & Ben Touchette",
-        "(C)2011 Rob Antonishen (original) & (C)2016-2017 Ben Touchette",
-        "2017",
-        "<Image>/Filters/NIK Collection/Color Efex Pro 4",
+        "(C)2011 Rob Antonishen (original) & (C)2016-2022 Ben Touchette",
+        "2011,2016-2022",
+        "<Image>/Filters/NIK Collection/Analog Efex Pro 2",
         "RGB*, GRAY*",
-        [ (PF_RADIO, "visible", "Layer:", 1, (("new from visible", 1),("current layer",0))) ],
+        [ (PF_RADIO, "visible", "Layer:", 2, (("new from duplicate", 2),("new from visible", 1),("current layer",0))) ],
         [],
         plugin_main,
         )

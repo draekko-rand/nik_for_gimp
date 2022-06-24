@@ -1,11 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
 '''
-NIK-OS-SharpenerPro3.py
+NIK-SilverEfexPro2.py
 
 Mod of ShellOut.py focused on getting Google NIK to work.
 ShellOut call an external program passing the active layer as a temp file.
-Tested only in Ubuntu 16.04 with Gimp 2.9.5 (git) with Nik Collection 1.2.11
+Tested only in Ubuntu 22.04 with Gimp 2.10.30/2.10.33(git) with Nik Collection 1.2.11
 
 Author:
 Erico Porto on top of the work of Rob Antonishen
@@ -14,7 +14,7 @@ Benoit Touchette modified from Erico Porto
 this script is modelled after the mm extern LabCurves trace plugin
 by Michael Munzert http://www.mm-log.com/lab-curves-gimp
 
-and thanks to the folds at gimp-chat has grown a bit ;)
+and thanks to the folks at gimp-chat it has grown a bit ;)
 
 License:
 
@@ -33,24 +33,34 @@ http://www.gnu.org/copyleft/gpl.html
 '''
 
 from gimpfu import *
+from time import sleep
 import shutil
+import platform
 import subprocess
 import os, sys
 import tempfile
 
-TEMP_FNAME = "ShellOutTempFile"
+TEMP_FNAME = "SilverEfexTempFile"
 
 def plugin_main(image, drawable, visible):
+
   pdb.gimp_image_undo_group_start(image)
 
-  # Copy so the save operations doesn't affect the original
-  if visible == 0:
-    # Save in temporary.  Note: empty user entered file name
+  if visible == 2:
+    # duplicate layer and rename
     temp = pdb.gimp_image_get_active_drawable(image)
-  else:
-    # Get the current visible
-    temp = pdb.gimp_layer_new_from_visible(image, image, "Sharpener Pro (OS)")
+    newLayer = pdb.gimp_layer_copy(temp, 100)
+    pdb.gimp_image_insert_layer(image, newLayer, None, -1)
+    pdb.gimp_image_set_active_layer(image, newLayer)
+    pdb.gimp_item_set_name(newLayer, "SilverEfexPro2")
+    temp = pdb.gimp_image_get_active_drawable(image)
+  elif visible == 1:
+    # new from visible layer and rename
+    temp = pdb.gimp_layer_new_from_visible(image, image, "SilverEfexPro2")
     image.add_layer(temp, 0)
+  else:
+    # use current layer and do not rename
+    temp = pdb.gimp_image_get_active_drawable(image)
 
   buffer = pdb.gimp_edit_named_copy(temp, "ShellOutTemp")
 
@@ -63,7 +73,6 @@ def plugin_main(image, drawable, visible):
   pdb.gimp_buffer_delete(buffer)
   if not tempimage:
     raise RuntimeError
-  pdb.gimp_image_undo_disable(tempimage)
 
   tempdrawable = pdb.gimp_image_get_active_layer(tempimage)
   
@@ -71,22 +80,34 @@ def plugin_main(image, drawable, visible):
   # change as indicated if you always want to use the same temp file name
   # tempfilename = pdb.gimp_temp_name(progtorun[2])
   tempfiledir = tempfile.gettempdir()
-  tempfilename = os.path.join(tempfiledir, TEMP_FNAME + "." + "tif")
+  intempfilename = os.path.join(tempfiledir, TEMP_FNAME + "_in." + "tif")
+  outtempfilename = os.path.join(tempfiledir, TEMP_FNAME + "_out." + "tif")
 
   # !!! Note no run-mode first parameter, and user entered filename is empty string
   pdb.gimp_progress_set_text ("Saving a copy")
-  pdb.gimp_file_save(tempimage, tempdrawable, tempfilename, tempfilename)
+  pdb.gimp_file_save(tempimage, tempdrawable, intempfilename, intempfilename)
 
   # Invoke external command
-  print("calling Sharpener Pro 3 (OS)...")
-  pdb.gimp_progress_set_text ("calling Sharpener Pro 3 (OS)...")
+  print("calling Silver Efex Pro 2...")
+  pdb.gimp_progress_set_text ("calling Silver Efex Pro 2...")
   pdb.gimp_progress_pulse()
-  child = subprocess.Popen([ "nik_sharpenerpro3_os",  tempfilename ], shell=False)
+  child = subprocess.Popen([ "nik_silverefexpro2",  intempfilename ], shell=False)
   child.communicate()
+
+  #make the annoying richtiffiptc warning go away, convert-im6.q16 the file tif to tif
+  #requires imagemagick convert-im6.q16
+  try:
+    child = subprocess.Popen([ "convert-im6.q16", "-colorspace", "Gray",  intempfilename, outtempfilename], shell=False)
+    child.communicate()
+  except:
+    print "missing convert-im6.q16 command from imagemagick"
 
   # put it as a new layer in the opened image
   try:
-    newlayer2 = pdb.gimp_file_load_layer(tempimage, tempfilename)
+    if os.path.exists(outtempfilename):
+      newlayer2 = pdb.gimp_file_load_layer(tempimage, outtempfilename)
+    else:
+      newlayer2 = pdb.gimp_file_load_layer(tempimage, intempfilename)
   except:
     RuntimeError
 
@@ -112,7 +133,9 @@ def plugin_main(image, drawable, visible):
     image.remove_channel(savedsel)
 
   # cleanup
-  os.remove(tempfilename)  # delete the temporary file
+  os.remove(intempfilename)  # delete the temporary file
+  if os.path.exists(outtempfilename):
+    os.remove(outtempfilename)  # delete the temporary file
   gimp.delete(tempimage)   # delete the temporary image
 
   # Note the new image is dirty in Gimp and the user will be asked to save before closing.
@@ -121,15 +144,15 @@ def plugin_main(image, drawable, visible):
 
 
 register(
-        "nikfilters_sharpenerpro3_os",
-        "Sharpener Pro 3 (OS)",
-        "Sharpener Pro 3 (OS)",
+        "nikfilters_silverefexpro2",
+        "Silver Efex Pro 2",
+        "Silver Efex Pro 2",
         "Rob Antonishen (original) & Ben Touchette",
-        "(C)2011 Rob Antonishen (original) & (C)2016-2017 Ben Touchette",
-        "2017",
-        "<Image>/Filters/NIK Collection/Sharpener Pro 3 (OS)",
+        "(C)2011 Rob Antonishen (original) & (C)2016-2022 Ben Touchette",
+        "2011,2016-2022",
+        "<Image>/Filters/NIK Collection/Silver Efex Pro 2",
         "RGB*, GRAY*",
-        [ (PF_RADIO, "visible", "Layer:", 1, (("new from visible", 1),("current layer",0))) ],
+        [ (PF_RADIO, "visible", "Layer:", 2, (("new from duplicate", 2),("new from visible", 1),("current layer",0))) ],
         [],
         plugin_main,
         )

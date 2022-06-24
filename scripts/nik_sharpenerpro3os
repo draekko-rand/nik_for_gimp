@@ -36,10 +36,9 @@ fi
 
 export WINEPREFIX=${HOME}/.wine.nik
 echo "all exec '$@'"
-/opt/wine-staging/bin/wine "C:\Program Files\Google\Nik Collection\Analog Efex Pro 2\Analog Efex Pro 2.exe" $@
+/opt/wine-staging/bin/wine "C:\Program Files\Google\Nik Collection\Sharpener Pro 3\SHP3OS.exe" $@
 killall -9 wineserver services.exe winedevice.exe GoogleUpdate.exe winedevice.exe plugplay.exe \
            svchost.exe rpcss.exe winetricks wineserver explorer.exe wineboot.exe wine \
            winemenubuilder
-
 
 
