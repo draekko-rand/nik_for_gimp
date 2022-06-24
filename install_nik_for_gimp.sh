@@ -301,7 +301,7 @@ install -m 755 plug-ins/2.99/NIK-ColorEfexPro4/NIK-ColorEfexPro4.py $installatio
 install -m 755 plug-ins/2.99/NIK-HDREfexPro2/NIK-HDREfexPro2.py $installation_dir/NIK-HDREfexPro2
 install -m 755 plug-ins/2.99/NIK-SilverEfexPro2/NIK-SilverEfexPro2.py $installation_dir/NIK-SilverEfexPro2
 install -m 755 plug-ins/2.99/NIK-AnalogEfexPro2/NIK-AnalogEfexPro2.py $installation_dir/NIK-AnalogEfexPro2
-install -m 755 plug-ins/2.99/NIK-Dfine2/NIK-Dfine2.py $installation_dir/NIK-Dfine2.py
+install -m 755 plug-ins/2.99/NIK-Dfine2/NIK-Dfine2.py $installation_dir/NIK-Dfine2/NIK-Dfine2.py
 install -m 755 plug-ins/2.99/NIK-OS-SharpenerPro3/NIK-OS-SharpenerPro3.py $installation_dir/NIK-OS-SharpenerPro3
 install -m 755 plug-ins/2.99/NIK-PR-SharpenerPro3/NIK-PR-SharpenerPro3.py $installation_dir/NIK-PR-SharpenerPro3
 install -m 755 plug-ins/2.99/NIK-Viveza2/NIK-Viveza2.py $installation_dir/NIK-Viveza2

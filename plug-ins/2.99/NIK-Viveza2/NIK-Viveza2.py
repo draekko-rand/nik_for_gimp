@@ -76,7 +76,7 @@ script_name = internal_name.lower()
 RESPONSE_TYPE_RESET = 99
 layer_modes = [Duplicate(), Visible(), Current()]
                 
-class NIKSilverEfexPro2 (Gimp.PlugIn):
+class NIKViveza2 (Gimp.PlugIn):
 
     __gproperties__ = {
         "selected_layer_mode" : (int,
@@ -281,4 +281,4 @@ class NIKSilverEfexPro2 (Gimp.PlugIn):
         
         return procedure
 
-Gimp.main(NIKSilverEfexPro2.__gtype__, sys.argv)
+Gimp.main(NIKViveza2.__gtype__, sys.argv)

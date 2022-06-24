@@ -75,8 +75,8 @@ internal_name = plugin_name.replace(" ", "")
 script_name = internal_name.lower()
 RESPONSE_TYPE_RESET = 99
 layer_modes = [Duplicate(), Visible(), Current()]
-                
-class NIKSilverEfexPro2 (Gimp.PlugIn):
+
+class NIKSharpenerPro3PR (Gimp.PlugIn):
 
     __gproperties__ = {
         "selected_layer_mode" : (int,
@@ -281,4 +281,4 @@ class NIKSilverEfexPro2 (Gimp.PlugIn):
         
         return procedure
 
-Gimp.main(NIKSilverEfexPro2.__gtype__, sys.argv)
+Gimp.main(NIKSharpenerPro3PR.__gtype__, sys.argv)
