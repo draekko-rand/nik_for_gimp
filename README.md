@@ -4,14 +4,14 @@ Nik Collection for GIMP v2.10.xx & v2.99.xx
 Installation script to install Nik Collection v1.2.11 for use with GIMP (2.10.30, 2.99, or versions above those) and as a standalone app. 
 
 Screenshots:
-
-![](images/screen_1.png)
-
-
-![](images/screen_2.png)
-
-
-![](images/screen_3.png)
+  
+<img src="https://raw.githubusercontent.com/draekko-rand/nik_for_gimp/master/images/screenshot1.png" data-canonical-src="https://raw.githubusercontent.com/draekko-rand/nik_for_gimp/master/images/screen_1.png" width="640px" />
+  
+  
+<img src="https://raw.githubusercontent.com/draekko-rand/nik_for_gimp/master/images/screenshot2.png" data-canonical-src="https://raw.githubusercontent.com/draekko-rand/nik_for_gimp/master/images/screen_2.png" width="640px" />
+  
+  
+<img src="https://raw.githubusercontent.com/draekko-rand/nik_for_gimp/master/images/screenshot3.png" data-canonical-src="https://raw.githubusercontent.com/draekko-rand/nik_for_gimp/master/images/screen_3.png" width="640px" />
 
 ### Donate:
 
