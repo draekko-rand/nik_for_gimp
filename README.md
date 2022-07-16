@@ -13,9 +13,9 @@ Screenshots:
 
 ![](images/screen_3.png)
 
-### Donations:
+### Donate:
 
-* Send Bitcoin donations to bc1qeydaauzjpgy3k4mxt47fq4600x0uk9aw3l57am
+* By sending Bitcoin donations to bc1qeydaauzjpgy3k4mxt47fq4600x0uk9aw3l57am (single/recurring donations)
 
 ### Notes:
 
