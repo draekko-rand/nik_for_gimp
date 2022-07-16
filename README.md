@@ -13,6 +13,10 @@ Screenshots:
 
 ![](images/screen_3.png)
 
+### Donations:
+
+* Send Bitcoin donations to bc1qeydaauzjpgy3k4mxt47fq4600x0uk9aw3l57am
+
 ### Notes:
 
 * Tested on Ubuntu 22.04 with Wine Staging v7.11 using Nik Collection v1.2.11, and GIMP v2.99 (from git) as well as GIMP 2.10.30 (from Ubuntu), and 2.10.33 (from git).
