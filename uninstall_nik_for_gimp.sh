@@ -25,49 +25,86 @@ delete_file -fr $WINEPREFIX
 
 GIMP_210_PLUGINS=${HOME}/.config/GIMP/2.10/plug-ins/
 GIMP_299_PLUGINS=${HOME}/.config/GIMP/2.99/plug-ins/
+GIMP_300_PLUGINS=${HOME}/.config/GIMP/3.0/plug-ins/
+
+# removing plugins for GIMP 3.0
+echo "removing plugins for GIMP 3.0"
+installation_dir="${GIMP_300_PLUGINS}"
+if  [ -e $installation_dir ]; then
+    cd $installation_dir
+    delete_file NIK-ColorEfexPro4/NIK-ColorEfexPro4.py
+    delete_file NIK-HDREfexPro2/NIK-HDREfexPro2.py
+    delete_file NIK-SilverEfexPro2/NIK-SilverEfexPro2.py
+    delete_file NIK-AnalogEfexPro2/NIK-AnalogEfexPro2.py
+    delete_file NIK-Dfine2/NIK-Dfine2.py
+    delete_file NIK-OS-SharpenerPro3/NIK-OS-SharpenerPro3.py
+    delete_file NIK-PR-SharpenerPro3/NIK-PR-SharpenerPro3.py
+    delete_file NIK-Viveza2/NIK-Viveza2.py
+    cd ..
+    delete_dir $installation_dir/NIK-ColorEfexPro4/locale
+    delete_dir $installation_dir/NIK-HDREfexPro2/locale
+    delete_dir $installation_dir/NIK-SilverEfexPro2/locale
+    delete_dir $installation_dir/NIK-AnalogEfexPro2/locale
+    delete_dir $installation_dir/NIK-Dfine2/locale
+    delete_dir $installation_dir/NIK-OS-SharpenerPro3/locale
+    delete_dir $installation_dir/NIK-PR-SharpenerPro3/locale
+    delete_dir $installation_dir/NIK-Viveza2/locale
+    delete_dir $installation_dir/NIK-ColorEfexPro4
+    delete_dir $installation_dir/NIK-HDREfexPro2
+    delete_dir $installation_dir/NIK-SilverEfexPro2
+    delete_dir $installation_dir/NIK-AnalogEfexPro2
+    delete_dir $installation_dir/NIK-Dfine2
+    delete_dir $installation_dir/NIK-OS-SharpenerPro3
+    delete_dir $installation_dir/NIK-PR-SharpenerPro3
+    delete_dir $installation_dir/NIK-Viveza2
+fi
 
 # removing plugins for GIMP 2.99
 echo "removing plugins for GIMP 2.99"
 installation_dir="${GIMP_299_PLUGINS}"
-cd $installation_dir
-delete_file NIK-ColorEfexPro4/NIK-ColorEfexPro4.py
-delete_file NIK-HDREfexPro2/NIK-HDREfexPro2.py
-delete_file NIK-SilverEfexPro2/NIK-SilverEfexPro2.py
-delete_file NIK-AnalogEfexPro2/NIK-AnalogEfexPro2.py
-delete_file NIK-Dfine2/NIK-Dfine2.py
-delete_file NIK-OS-SharpenerPro3/NIK-OS-SharpenerPro3.py
-delete_file NIK-PR-SharpenerPro3/NIK-PR-SharpenerPro3.py
-delete_file NIK-Viveza2/NIK-Viveza2.py
-cd ..
-delete_dir $installation_dir/NIK-ColorEfexPro4/locale
-delete_dir $installation_dir/NIK-HDREfexPro2/locale
-delete_dir $installation_dir/NIK-SilverEfexPro2/locale
-delete_dir $installation_dir/NIK-AnalogEfexPro2/locale
-delete_dir $installation_dir/NIK-Dfine2/locale
-delete_dir $installation_dir/NIK-OS-SharpenerPro3/locale
-delete_dir $installation_dir/NIK-PR-SharpenerPro3/locale
-delete_dir $installation_dir/NIK-Viveza2/locale
-delete_dir $installation_dir/NIK-ColorEfexPro4
-delete_dir $installation_dir/NIK-HDREfexPro2
-delete_dir $installation_dir/NIK-SilverEfexPro2
-delete_dir $installation_dir/NIK-AnalogEfexPro2
-delete_dir $installation_dir/NIK-Dfine2
-delete_dir $installation_dir/NIK-OS-SharpenerPro3
-delete_dir $installation_dir/NIK-PR-SharpenerPro3
-delete_dir $installation_dir/NIK-Viveza2
+if  [ -e $installation_dir ]; then
+    cd $installation_dir
+    delete_file NIK-ColorEfexPro4/NIK-ColorEfexPro4.py
+    delete_file NIK-HDREfexPro2/NIK-HDREfexPro2.py
+    delete_file NIK-SilverEfexPro2/NIK-SilverEfexPro2.py
+    delete_file NIK-AnalogEfexPro2/NIK-AnalogEfexPro2.py
+    delete_file NIK-Dfine2/NIK-Dfine2.py
+    delete_file NIK-OS-SharpenerPro3/NIK-OS-SharpenerPro3.py
+    delete_file NIK-PR-SharpenerPro3/NIK-PR-SharpenerPro3.py
+    delete_file NIK-Viveza2/NIK-Viveza2.py
+    cd ..
+    delete_dir $installation_dir/NIK-ColorEfexPro4/locale
+    delete_dir $installation_dir/NIK-HDREfexPro2/locale
+    delete_dir $installation_dir/NIK-SilverEfexPro2/locale
+    delete_dir $installation_dir/NIK-AnalogEfexPro2/locale
+    delete_dir $installation_dir/NIK-Dfine2/locale
+    delete_dir $installation_dir/NIK-OS-SharpenerPro3/locale
+    delete_dir $installation_dir/NIK-PR-SharpenerPro3/locale
+    delete_dir $installation_dir/NIK-Viveza2/locale
+    delete_dir $installation_dir/NIK-ColorEfexPro4
+    delete_dir $installation_dir/NIK-HDREfexPro2
+    delete_dir $installation_dir/NIK-SilverEfexPro2
+    delete_dir $installation_dir/NIK-AnalogEfexPro2
+    delete_dir $installation_dir/NIK-Dfine2
+    delete_dir $installation_dir/NIK-OS-SharpenerPro3
+    delete_dir $installation_dir/NIK-PR-SharpenerPro3
+    delete_dir $installation_dir/NIK-Viveza2
+fi
 
 # removing plugins for GIMP 2.10
 echo "removing plugins for GIMP 2.10"
 installation_dir="${GIMP_210_PLUGINS}"
-cd $installation_dir
-delete_file NIK-ColorEfexPro4.py
-delete_file NIK-HDREfexPro2.py
-delete_file NIK-SilverEfexPro2.py
-delete_file NIK-AnalogEfexPro2.py
-delete_file NIK-Dfine2.py
-delete_file NIK-OS-SharpenerPro3.py
-delete_file NIK-PR-SharpenerPro3.py
-delete_file NIK-Viveza2.py
+if  [ -e $installation_dir ]; then
+    cd $installation_dir
+    delete_file NIK-ColorEfexPro4.py
+    delete_file NIK-HDREfexPro2.py
+    delete_file NIK-SilverEfexPro2.py
+    delete_file NIK-AnalogEfexPro2.py
+    delete_file NIK-Dfine2.py
+    delete_file NIK-OS-SharpenerPro3.py
+    delete_file NIK-PR-SharpenerPro3.py
+    delete_file NIK-Viveza2.py
+fi
 
 # removing launcher scripts
 echo "removing launcher scripts"

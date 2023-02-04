@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-#Tested only in Ubuntu 22.04 with Gimp 2.99 (git) with NIK Collection 1.2.11
+#Tested only in Ubuntu 22.10 with Gimp 2.99/3.0 (git) with NIK Collection 1.2.11
 #
 #Updated for GIMP git (2.99+) and Python 3
 #
@@ -114,12 +114,15 @@ class NIKSharpenerPro3PR (Gimp.PlugIn):
         Gimp.context_push()
         image.undo_group_start()
     
+        actives = image.list_selected_layers()
+        active = actives[0]
+
         if (self.selected_layer_mode == Duplicate.position):
             #Use duplicate layer
             active = image.get_active_layer()
             newLayer = Gimp.Layer.copy(active)
             image.insert_layer(newLayer, None, -1)
-            image.set_active_layer(newLayer) 
+            image.set_selected_layers([newLayer])
             Gimp.Item.set_name(newLayer, plugin_name)
             temp = image.get_active_drawable()
         elif (self.selected_layer_mode == Visible.position):
@@ -132,10 +135,10 @@ class NIKSharpenerPro3PR (Gimp.PlugIn):
             if (result.index(0) != Gimp.PDBStatusType.SUCCESS):
                 raise RuntimeError
             temp = result.index(1)
-            image.insert_layer(temp, None, 0)
+            image.insert_layer(temp, active.get_parent(), 0)
         elif (self.selected_layer_mode == Current.position):
             #Use the current layer
-            temp = image.get_active_drawable()
+            temp = image.get_selected_drawables()[0]
         else:
             raise RuntimeError
 
@@ -146,8 +149,7 @@ class NIKSharpenerPro3PR (Gimp.PlugIn):
         if not tempimage:
             raise RuntimeError
 
-        #image.undo_disable(image)
-        tempdrawable = Gimp.Image.get_active_layer(tempimage)
+        tempdrawable = tempimage.get_selected_drawables()[0]
         tempfilename = os.path.join('/tmp', internal_name+'_TEMP.tif')
         Gimp.progress_set_text ("Saving a copy")
         tempfileOut = Gio.File.new_for_path(tempfilename)
@@ -159,7 +161,7 @@ class NIKSharpenerPro3PR (Gimp.PlugIn):
 
         tempfileIn = Gio.File.new_for_path(tempfilename)
         newlayer2 = Gimp.file_load_layer(Gimp.RunMode.NONINTERACTIVE, tempimage, tempfileIn)
-        tempimage.insert_layer(newlayer2, None, 0)
+        tempimage.insert_layer(newlayer2, active.get_parent(), 0)
         buffer = Gimp.edit_named_copy([ newlayer2 ], plugin_name)
         sel = Gimp.edit_named_paste(temp, buffer, 1)
         Gimp.floating_sel_anchor(sel)

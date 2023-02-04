@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 #
-# Tested on Ubuntu 22.04
+# Tested on Ubuntu 22.10
 #
 # Required:
-#   Gimp 2.10.30+ or 2.99+ (from git)
+#   Gimp 2.10.30+ or 2.99+ (from git) and future 3.0+
 #   wine-staging (7.11 or better)
 #   p7zip-full
 #
@@ -18,7 +18,7 @@ export WINEPREFIX=${HOME}/.wine.nik
 export WINEARCH=win32
 
 export VERSIONCHECK="2.10.30"
-export GIMPVERSION=`gimp --version | awk '{print $NF}'`
+export GIMPVERSION=`gimp-2.10 --version | awk '{print $NF}'`
 
 export TMP=/tmp/nik_tmp
 export NIK_COLLECTION=/tmp/nikcollection-full-1.2.11.exe
@@ -273,19 +273,39 @@ extraction_installation
 
 GIMP_210_PLUGINS=${HOME}/.config/GIMP/2.10/plug-ins/
 GIMP_299_PLUGINS=${HOME}/.config/GIMP/2.99/plug-ins/
+GIMP_300_PLUGINS=${HOME}/.config/GIMP/3.0/plug-ins/
 
 echo "Install gimp nik plugin"
-if [ ! -d "${GIMP_210_PLUGINS}" ]; then
-    echo "Create  directories"
-    sudo mkdir -p  "${GIMP_210_PLUGINS}"
-    sudo chmod -R $USER.$USER "${GIMP_210_PLUGINS}"
-fi
+echo "Create  directories"
+sudo mkdir -p  "${GIMP_210_PLUGINS}"
+sudo chmod -R $USER.$USER "${GIMP_210_PLUGINS}"
 
-if [ ! -d "${GIMP_299_PLUGINS}" ]; then
-    echo "Create  directories"
-    sudo mkdir -p  "${GIMP_299_PLUGINS}"
-    sudo chmod -R $USER.$USER "${GIMP_299_PLUGINS}"
-fi
+echo "Create  directories"
+sudo mkdir -p  "${GIMP_299_PLUGINS}"
+sudo chmod -R $USER.$USER "${GIMP_299_PLUGINS}"
+
+echo "Create  directories"
+sudo mkdir -p  "${GIMP_300_PLUGINS}"
+sudo chmod -R $USER.$USER "${GIMP_300_PLUGINS}"
+
+installation_dir="${GIMP_300_PLUGINS}"
+mkdir -p "$installation_dir/NIK-ColorEfexPro4/locale"
+mkdir -p "$installation_dir/NIK-HDREfexPro2/locale"
+mkdir -p "$installation_dir/NIK-SilverEfexPro2/locale"
+mkdir -p "$installation_dir/NIK-AnalogEfexPro2/locale"
+mkdir -p "$installation_dir/NIK-Dfine2/locale"
+mkdir -p "$installation_dir/NIK-OS-SharpenerPro3/locale"
+mkdir -p "$installation_dir/NIK-PR-SharpenerPro3/locale"
+mkdir -p "$installation_dir/NIK-Viveza2/locale"
+
+install -m 755 plug-ins/2.99/NIK-ColorEfexPro4/NIK-ColorEfexPro4.py $installation_dir/NIK-ColorEfexPro4
+install -m 755 plug-ins/2.99/NIK-HDREfexPro2/NIK-HDREfexPro2.py $installation_dir/NIK-HDREfexPro2
+install -m 755 plug-ins/2.99/NIK-SilverEfexPro2/NIK-SilverEfexPro2.py $installation_dir/NIK-SilverEfexPro2
+install -m 755 plug-ins/2.99/NIK-AnalogEfexPro2/NIK-AnalogEfexPro2.py $installation_dir/NIK-AnalogEfexPro2
+install -m 755 plug-ins/2.99/NIK-Dfine2/NIK-Dfine2.py $installation_dir/NIK-Dfine2/NIK-Dfine2.py
+install -m 755 plug-ins/2.99/NIK-OS-SharpenerPro3/NIK-OS-SharpenerPro3.py $installation_dir/NIK-OS-SharpenerPro3
+install -m 755 plug-ins/2.99/NIK-PR-SharpenerPro3/NIK-PR-SharpenerPro3.py $installation_dir/NIK-PR-SharpenerPro3
+install -m 755 plug-ins/2.99/NIK-Viveza2/NIK-Viveza2.py $installation_dir/NIK-Viveza2
 
 installation_dir="${GIMP_299_PLUGINS}"
 mkdir -p "$installation_dir/NIK-ColorEfexPro4/locale"
