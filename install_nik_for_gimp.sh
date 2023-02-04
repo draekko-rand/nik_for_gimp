@@ -278,15 +278,18 @@ GIMP_300_PLUGINS=${HOME}/.config/GIMP/3.0/plug-ins/
 echo "Install gimp nik plugin"
 echo "Create  directories"
 sudo mkdir -p  "${GIMP_210_PLUGINS}"
-sudo chmod -R $USER.$USER "${GIMP_210_PLUGINS}"
+sudo chown -R $USER.$USER "${GIMP_210_PLUGINS}"
+sudo chmod -R 755 "${GIMP_210_PLUGINS}"
 
 echo "Create  directories"
 sudo mkdir -p  "${GIMP_299_PLUGINS}"
-sudo chmod -R $USER.$USER "${GIMP_299_PLUGINS}"
+sudo chown -R $USER.$USER "${GIMP_299_PLUGINS}"
+sudo chmod -R 755 "${GIMP_299_PLUGINS}"
 
 echo "Create  directories"
 sudo mkdir -p  "${GIMP_300_PLUGINS}"
-sudo chmod -R $USER.$USER "${GIMP_300_PLUGINS}"
+sudo chown -R $USER.$USER "${GIMP_300_PLUGINS}"
+sudo chmod -R 755 "${GIMP_300_PLUGINS}"
 
 installation_dir="${GIMP_300_PLUGINS}"
 mkdir -p "$installation_dir/NIK-ColorEfexPro4/locale"
