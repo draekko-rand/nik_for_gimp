@@ -4,7 +4,7 @@
 # Tested on Ubuntu 22.10
 #
 # Required:
-#   Gimp 2.10.30+ or 2.99+ (from git) and future 3.0+
+#   Gimp 2.10 or 3.0 (from git)
 #   wine-staging (7.11 or better)
 #   p7zip-full
 #
@@ -272,7 +272,6 @@ extraction_installation
 #wine_install
 
 GIMP_210_PLUGINS=${HOME}/.config/GIMP/2.10/plug-ins/
-GIMP_299_PLUGINS=${HOME}/.config/GIMP/2.99/plug-ins/
 GIMP_300_PLUGINS=${HOME}/.config/GIMP/3.0/plug-ins/
 
 echo "Install gimp nik plugin"
@@ -280,11 +279,6 @@ echo "Create  directories"
 sudo mkdir -p  "${GIMP_210_PLUGINS}"
 sudo chown -R $USER.$USER "${GIMP_210_PLUGINS}"
 sudo chmod -R 755 "${GIMP_210_PLUGINS}"
-
-echo "Create  directories"
-sudo mkdir -p  "${GIMP_299_PLUGINS}"
-sudo chown -R $USER.$USER "${GIMP_299_PLUGINS}"
-sudo chmod -R 755 "${GIMP_299_PLUGINS}"
 
 echo "Create  directories"
 sudo mkdir -p  "${GIMP_300_PLUGINS}"
@@ -301,33 +295,14 @@ mkdir -p "$installation_dir/NIK-OS-SharpenerPro3/locale"
 mkdir -p "$installation_dir/NIK-PR-SharpenerPro3/locale"
 mkdir -p "$installation_dir/NIK-Viveza2/locale"
 
-install -m 755 plug-ins/2.99/NIK-ColorEfexPro4/NIK-ColorEfexPro4.py $installation_dir/NIK-ColorEfexPro4
-install -m 755 plug-ins/2.99/NIK-HDREfexPro2/NIK-HDREfexPro2.py $installation_dir/NIK-HDREfexPro2
-install -m 755 plug-ins/2.99/NIK-SilverEfexPro2/NIK-SilverEfexPro2.py $installation_dir/NIK-SilverEfexPro2
-install -m 755 plug-ins/2.99/NIK-AnalogEfexPro2/NIK-AnalogEfexPro2.py $installation_dir/NIK-AnalogEfexPro2
-install -m 755 plug-ins/2.99/NIK-Dfine2/NIK-Dfine2.py $installation_dir/NIK-Dfine2/NIK-Dfine2.py
-install -m 755 plug-ins/2.99/NIK-OS-SharpenerPro3/NIK-OS-SharpenerPro3.py $installation_dir/NIK-OS-SharpenerPro3
-install -m 755 plug-ins/2.99/NIK-PR-SharpenerPro3/NIK-PR-SharpenerPro3.py $installation_dir/NIK-PR-SharpenerPro3
-install -m 755 plug-ins/2.99/NIK-Viveza2/NIK-Viveza2.py $installation_dir/NIK-Viveza2
-
-installation_dir="${GIMP_299_PLUGINS}"
-mkdir -p "$installation_dir/NIK-ColorEfexPro4/locale"
-mkdir -p "$installation_dir/NIK-HDREfexPro2/locale"
-mkdir -p "$installation_dir/NIK-SilverEfexPro2/locale"
-mkdir -p "$installation_dir/NIK-AnalogEfexPro2/locale"
-mkdir -p "$installation_dir/NIK-Dfine2/locale"
-mkdir -p "$installation_dir/NIK-OS-SharpenerPro3/locale"
-mkdir -p "$installation_dir/NIK-PR-SharpenerPro3/locale"
-mkdir -p "$installation_dir/NIK-Viveza2/locale"
-
-install -m 755 plug-ins/2.99/NIK-ColorEfexPro4/NIK-ColorEfexPro4.py $installation_dir/NIK-ColorEfexPro4
-install -m 755 plug-ins/2.99/NIK-HDREfexPro2/NIK-HDREfexPro2.py $installation_dir/NIK-HDREfexPro2
-install -m 755 plug-ins/2.99/NIK-SilverEfexPro2/NIK-SilverEfexPro2.py $installation_dir/NIK-SilverEfexPro2
-install -m 755 plug-ins/2.99/NIK-AnalogEfexPro2/NIK-AnalogEfexPro2.py $installation_dir/NIK-AnalogEfexPro2
-install -m 755 plug-ins/2.99/NIK-Dfine2/NIK-Dfine2.py $installation_dir/NIK-Dfine2/NIK-Dfine2.py
-install -m 755 plug-ins/2.99/NIK-OS-SharpenerPro3/NIK-OS-SharpenerPro3.py $installation_dir/NIK-OS-SharpenerPro3
-install -m 755 plug-ins/2.99/NIK-PR-SharpenerPro3/NIK-PR-SharpenerPro3.py $installation_dir/NIK-PR-SharpenerPro3
-install -m 755 plug-ins/2.99/NIK-Viveza2/NIK-Viveza2.py $installation_dir/NIK-Viveza2
+install -m 755 plug-ins/3.0/NIK-ColorEfexPro4/NIK-ColorEfexPro4.py $installation_dir/NIK-ColorEfexPro4
+install -m 755 plug-ins/3.0/NIK-HDREfexPro2/NIK-HDREfexPro2.py $installation_dir/NIK-HDREfexPro2
+install -m 755 plug-ins/3.0/NIK-SilverEfexPro2/NIK-SilverEfexPro2.py $installation_dir/NIK-SilverEfexPro2
+install -m 755 plug-ins/3.0/NIK-AnalogEfexPro2/NIK-AnalogEfexPro2.py $installation_dir/NIK-AnalogEfexPro2
+install -m 755 plug-ins/3.0/NIK-Dfine2/NIK-Dfine2.py $installation_dir/NIK-Dfine2/NIK-Dfine2.py
+install -m 755 plug-ins/3.0/NIK-OS-SharpenerPro3/NIK-OS-SharpenerPro3.py $installation_dir/NIK-OS-SharpenerPro3
+install -m 755 plug-ins/3.0/NIK-PR-SharpenerPro3/NIK-PR-SharpenerPro3.py $installation_dir/NIK-PR-SharpenerPro3
+install -m 755 plug-ins/3.0/NIK-Viveza2/NIK-Viveza2.py $installation_dir/NIK-Viveza2
 
 installation_dir="${GIMP_210_PLUGINS}"
 install -m 755 plug-ins/2.10/NIK-ColorEfexPro4.py $installation_dir

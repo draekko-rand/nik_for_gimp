@@ -1,24 +1,24 @@
 #!/usr/bin/env python3
 
-#Tested only in Ubuntu 22.10 with Gimp 2.99/3.0 (git) with NIK Collection 1.2.11
+# Tested only in Ubuntu 24.10 with Gimp 3.0 (git) with NIK Collection 1.2.11
 #
-#Updated for GIMP git (2.99+) and Python 3
+# Updated for GIMP git (3.0+) and Python 3
 #
-#Author: Draekko
+# Author: Draekko
 #
-#License:
+# License:
 #
-#This program is free software; you can redistribute it and/or modify
-#it under the terms of the GNU General Public License as published by
-#the Free Software Foundation; version 3 of the License.
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 3 of the License.
 #
-#This program is distributed in the hope that it will be useful,
-#but WITHOUT ANY WARRANTY; without even the implied warranty of
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#GNU General Public License for more details.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 #
-#The GNU Public License is available at
-#http://www.gnu.org/copyleft/gpl.html
+# The GNU Public License is available at
+# http://www.gnu.org/copyleft/gpl.html
 
 
 '''
@@ -38,6 +38,7 @@ import subprocess
 import tempfile
 '''
 
+import hashlib
 import gi
 gi.require_version('Gimp', '3.0')
 from gi.repository import Gimp
@@ -70,26 +71,13 @@ class Current():
     name = _("Current layer")
     position = 2
 
-plugin_name = "Color Efex Pro 4"
+plugin_name = "Silver Efex Pro 2"
 internal_name = plugin_name.replace(" ", "")
 script_name = internal_name.lower()
 RESPONSE_TYPE_RESET = 99
 layer_modes = [Duplicate(), Visible(), Current()]
-                
-class NIKColorEfexPro4 (Gimp.PlugIn):
 
-    __gproperties__ = {
-        "selected_layer_mode" : (int,
-                        _("Layer mode { New from duplicate (0), New from visible (1), Current layer (2) }"),
-                        _("Layer mode { New from duplicate (0), New from visible (1), Current layer (2) }"),
-                        0, 2, 0,
-                        GObject.ParamFlags.READWRITE),
-        "remember" : (bool,
-                      _("Remember setting"),
-                      _("Remember setting"),
-                      False,
-                      GObject.ParamFlags.READWRITE)
-    }
+class NIKSilverEfexPro2 (Gimp.PlugIn):
 
     selected_layer_mode = 0
     local_config = None
@@ -110,28 +98,28 @@ class NIKColorEfexPro4 (Gimp.PlugIn):
         if (status):
             self.local_config.set_property('selected_layer_mode', self.selected_layer_mode)
 
-    def launch(self, procedure, run_mode, image, n_drawables, drawables, args, data):
+    def launch(self, procedure, run_mode, image, layers, config, data):
         Gimp.context_push()
         image.undo_group_start()
-    
-        actives = image.list_selected_layers()
+
+        actives = image.get_selected_layers()
         active = actives[0]
 
         if (self.selected_layer_mode == Duplicate.position):
             #Use duplicate layer
-            active = image.get_active_layer()
             newLayer = Gimp.Layer.copy(active)
             image.insert_layer(newLayer, None, -1)
             image.set_selected_layers([newLayer])
             Gimp.Item.set_name(newLayer, plugin_name)
-            temp = image.get_active_drawable()
+            temps = image.get_selected_drawables()
+            temp = temps[0];
         elif (self.selected_layer_mode == Visible.position):
-            #Use new from visible layer
-            result = Gimp.get_pdb().run_procedure('gimp-layer-new-from-visible', [
-                GObject.Value(Gimp.Image, image),
-                GObject.Value(Gimp.Image, image),
-                GObject.Value(GObject.TYPE_STRING, plugin_name)
-            ]) 
+            procedure = Gimp.get_pdb().lookup_procedure('gimp-layer-new-from-visible')
+            new_layer_config = procedure.create_config()
+            new_layer_config.set_property("image", image)   
+            new_layer_config.set_property("dest-image", image)   
+            new_layer_config.set_property("name", plugin_name)   
+            result = procedure.run(new_layer_config);
             if (result.index(0) != Gimp.PDBStatusType.SUCCESS):
                 raise RuntimeError
             temp = result.index(1)
@@ -149,36 +137,61 @@ class NIKColorEfexPro4 (Gimp.PlugIn):
         if not tempimage:
             raise RuntimeError
 
-        tempdrawable = tempimage.get_selected_drawables()[0]
+        tempsdrawables = tempimage.get_selected_drawables()
+        tempdrawable = tempsdrawables[0] 
         tempfilename = os.path.join('/tmp', internal_name+'_TEMP.tif')
         Gimp.progress_set_text ("Saving a copy")
         tempfileOut = Gio.File.new_for_path(tempfilename)
-        Gimp.file_save(Gimp.RunMode.NONINTERACTIVE, tempimage, [ tempdrawable ], tempfileOut)
-    
+        Gimp.file_save(Gimp.RunMode.NONINTERACTIVE, tempimage, tempfileOut)
+
+        hexdigest1 = None
+        hexdigest2 = None
+        
+        with open(tempfilename, 'rb') as fh:
+            m = hashlib.md5()
+            while True:
+                data = fh.read()
+                if not data:
+                    break
+                m.update(data)    
+            hexdigest1 = m.hexdigest()
+
         #Launch NIK windows app through wine
         child = subprocess.Popen([ "nik_"+script_name,  tempfilename ], shell=False)
         child.communicate()
 
-        tempfileIn = Gio.File.new_for_path(tempfilename)
-        newlayer2 = Gimp.file_load_layer(Gimp.RunMode.NONINTERACTIVE, tempimage, tempfileIn)
-        tempimage.insert_layer(newlayer2, active.get_parent(), 0)
-        buffer = Gimp.edit_named_copy([ newlayer2 ], plugin_name)
-        sel = Gimp.edit_named_paste(temp, buffer, 1)
-        Gimp.floating_sel_anchor(sel)
-        Gimp.buffer_delete(buffer)
-        os.remove(tempfilename)
-        tempimage.delete()
+        with open(tempfilename, 'rb') as fh:
+            m = hashlib.md5()
+            while True:
+                data = fh.read()
+                if not data:
+                    break
+                m.update(data)    
+            hexdigest2 = m.hexdigest()
 
+
+        if (hexdigest1 == hexdigest2):
+            os.remove(tempfilename)
+            tempimage.delete()
+        else:
+            tempfileIn = Gio.File.new_for_path(tempfilename)
+            newlayer2 = Gimp.file_load_layer(Gimp.RunMode.NONINTERACTIVE, tempimage, tempfileIn)
+            tempimage.insert_layer(newlayer2, active.get_parent(), 0)
+            buffer = Gimp.edit_named_copy([ newlayer2 ], plugin_name)
+            sel = Gimp.edit_named_paste(temp, buffer, 1)
+            Gimp.floating_sel_anchor(sel)
+            Gimp.buffer_delete(buffer)
+            os.remove(tempfilename)
+            tempimage.delete()
+        
         Gimp.displays_flush()
         image.undo_group_end()
         Gimp.context_pop()
-        
-    def process_image(self, procedure, run_mode, image, n_drawables, drawables, args, data):
-        config = procedure.create_config()
-        config.begin_run(image, run_mode, args)
-    
+        if (hexdigest1 == hexdigest2):
+            image.remove_layer(image.get_selected_drawables()[0])
+
+    def process_image(self, procedure, run_mode, image, layers, config, data):
         self.local_config = config
-        
         self.selected_layer_mode = config.get_property('selected_layer_mode')
         self.remember = config.get_property('remember')
 
@@ -187,14 +200,14 @@ class NIKColorEfexPro4 (Gimp.PlugIn):
 
             use_header_bar = Gtk.Settings.get_default().get_property("gtk-dialogs-use-header")
             dialog = GimpUi.Dialog(use_header_bar=use_header_bar, title=plugin_name)
-            
+
             dialog.add_button("_Cancel", Gtk.ResponseType.CANCEL)
             dialog.add_button("_Reset", RESPONSE_TYPE_RESET)
             dialog.add_button("_OK", Gtk.ResponseType.OK)
 
             hom=False
             spac=10
-            
+
             hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, homogeneous=hom, spacing=spac)
             dialog.get_content_area().add(hbox)
             hbox.show()
@@ -232,7 +245,7 @@ class NIKColorEfexPro4 (Gimp.PlugIn):
 
             hbox.add(table)
             table.show()
-            
+
             while (True):
                 response = dialog.run()
                 if response == RESPONSE_TYPE_RESET:
@@ -245,22 +258,23 @@ class NIKColorEfexPro4 (Gimp.PlugIn):
                         self.local_config.set_property('selected_layer_mode', self.selected_layer_mode)
                 elif response == Gtk.ResponseType.OK:
                     dialog.destroy()
-                    self.launch(procedure, run_mode, image, n_drawables, drawables, args, data)
-                    config.end_run(Gimp.PDBStatusType.SUCCESS)
+                    self.launch(procedure, run_mode, image, layers, config, data)
                     return procedure.new_return_values(Gimp.PDBStatusType.SUCCESS, GLib.Error())
                 elif response == Gtk.ResponseType.CANCEL:
                     dialog.destroy()
-                    config.end_run(Gimp.PDBStatusType.CANCEL)
                     return procedure.new_return_values(Gimp.PDBStatusType.CANCEL, GLib.Error())
                 else:
                     dialog.destroy()
-                    return procedure.new_return_values(Gimp.PDBStatusType.CANCEL,
-                                                        GLib.Error())
+                    return procedure.new_return_values(Gimp.PDBStatusType.CANCEL, GLib.Error())
+
+        else:
+            dialog.destroy()
+            return procedure.new_return_values(Gimp.PDBStatusType.CANCEL, GLib.Error())
 
     ## GimpPlugIn virtual methods ##
     def do_set_i18n(self, procname):
         return True, 'gimp30-python', None
-        
+
     def do_query_procedures(self):
         return [ "nik-"+internal_name+"-python" ]
 
@@ -275,12 +289,22 @@ class NIKColorEfexPro4 (Gimp.PlugIn):
                                     "NIK Collections Plugins (v1.2.11)",
                                     name);
         procedure.set_menu_label(plugin_name)
-        procedure.set_attribution("Draekko", "Draekko", "2022");
+        procedure.set_attribution("Draekko", "Draekko", "2022,2025");
         procedure.add_menu_path('<Image>/Filters/NIK Collection v1/');
 
-        procedure.add_argument_from_property(self, "selected_layer_mode")
-        procedure.add_argument_from_property(self, "remember")
-        
+        procedure.add_int_argument ("selected_layer_mode", 
+                                    _("Layer mode { New from duplicate (0), New from visible (1), Current layer (2) }"),
+                                    _("Layer mode { New from duplicate (0), New from visible (1), Current layer (2) }"),
+                                    0,
+                                    2,
+                                    0,
+                                    GObject.ParamFlags.READWRITE)
+        procedure.add_boolean_argument ("remember", 
+                                    _("Remember setting"),
+                                    _("Remember setting"),
+                                    False,
+                                    GObject.ParamFlags.READWRITE)
+
         return procedure
 
-Gimp.main(NIKColorEfexPro4.__gtype__, sys.argv)
+Gimp.main(NIKSilverEfexPro2.__gtype__, sys.argv)
